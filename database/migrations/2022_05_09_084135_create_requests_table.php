@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('quantity_type',['liter','shekel']);
             $table->unsignedFloat('quantity')->default(0);
             $table->foreignId('driver_id')->constrained('drivers');
-            $table->enum('status',['on','off']);
+            $table->enum('status',['on','off'])->default('on');
             $table->timestamps();
         });
     }
