@@ -1,0 +1,26 @@
+.hee{
+    display: flex;
+    justify-content: right;
+    margin-top: 40px;
+    margin-right: 100px;
+}
+
+.category{
+    margin-left: 300px;
+}
+
+.quantity-type{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+}
+
+
+.driver{
+    margin-right: 100px;
+}
+
+.accordion-button{
+    margin-right: 100px;
+    height: 50px;
+}

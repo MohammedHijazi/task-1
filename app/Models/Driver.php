@@ -10,8 +10,6 @@ class Driver extends Model
     use HasFactory;
 
 
-
-
     public function requests(){
         return $this->hasMany(Request::class);
     }

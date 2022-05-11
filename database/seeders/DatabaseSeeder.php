@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use http\Env\Response;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Seصeder;
 
 class DatabaseSeeder extends Seeder
 {
