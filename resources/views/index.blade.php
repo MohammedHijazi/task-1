@@ -15,10 +15,10 @@
 
         <div class="quantity-type">
             <label for="quantity_type">لترات</label>
-            <input name="quantity_type" type="radio" id="quantity_type" value="liter">
+            <input name="quantity_type" type="radio" class="quantity_type" value="liter">
             <br>
             <label for="quantity_type">مبلغ</label>
-            <input name="quantity_type" type="radio" id="quantity_type" value="shekel">
+            <input name="quantity_type" type="radio" class="quantity_type" value="shekel">
         </div>
 
         <div class="quantity-type">
@@ -137,11 +137,11 @@
 
                 var data = {
                     'category': $('#category').val(),
-                    'quantity_type': $('#quantity_type').val(),
+                    'quantity_type':  $(this).parent().find('input[name="quantity_type"]:checked').val(),
                     'quantity': $('#quantity').val(),
                     'driver_id': $('#driver').val(),
                 }
-                // console.log(data)
+                 console.log(data)
 
                 $.ajaxSetup({
                     headers: {
