@@ -24,3 +24,16 @@
     margin-right: 100px;
     height: 50px;
 }
+
+#req{
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 240px;
+}
+
+th{
+    text-align: center;
+}
+tbody{
+    text-align: center;
+}

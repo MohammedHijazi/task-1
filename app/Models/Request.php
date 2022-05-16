@@ -26,15 +26,30 @@ class Request extends Model
 
 
 
-    public function getDriverNameAttribute(){
+    public function getDriverNameAttribute()
+    {
         return  $this->driver->name;
     }
 
-    public function getQuantityTypeAttribute($value){
-        if($value=='liter'){
+    public function getQuantityTypeAttribute($value)
+    {
+        if($value=='liter')
+        {
             return 'لتر';
-        }else{
+        }else
+        {
             return 'شيكل';
+        }
+    }
+
+    public function getStatusAttribute($value)
+    {
+        if($value=='on')
+        {
+            return 'تم الاستلام';
+        }else
+        {
+            return 'تم الايقاف';
         }
     }
 

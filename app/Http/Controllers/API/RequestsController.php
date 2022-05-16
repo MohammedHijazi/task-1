@@ -29,7 +29,8 @@ class RequestsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $request->validate
+        ([
            'category'=>'required|string|max:20',
             'quantity_type'=>'required|string',
             'quantity'=>'required',
@@ -59,11 +60,14 @@ class RequestsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $req=\App\Models\Request::findOrFail($id);
+        $req->status="off";
+        $req->save();
+        return Response::json($req,201);
     }
 
     /**

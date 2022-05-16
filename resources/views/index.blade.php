@@ -15,15 +15,15 @@
 
         <div class="quantity-type">
             <label for="quantity_type">لترات</label>
-            <input type="radio" name="quantity_type" value="liter">
+            <input type="radio" id="quantity_type" value="liter">
             <br>
             <label for="quantity_type">مبلغ</label>
-            <input type="radio" name="quantity_type" value="shekel">
+            <input type="radio" id="quantity_type" value="shekel">
         </div>
 
         <div class="quantity-type">
             <h6>الكمية</h6>
-            <input type="text" name="quantity">
+            <input type="text" id="quantity">
         </div>
 
         <div class="driver">
@@ -33,12 +33,13 @@
             </select>
         </div>
 
-        <button class="accordion-button" type="submit">اعتماد</button>
+        <button class="accordion-button add_request " type="submit" >اعتماد</button>
+
     </div>
     <hr>
 
     <div>
-        <h3>الطلبات السابقة</h3>
+        <h3 id="req">الطلبات السابقة</h3>
         <div class="container py-5">
             <div class="row">
                 <div class="col-md-12">
@@ -47,7 +48,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered">
+                            <table id="requests" class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>رقم الطلب</th>
@@ -77,7 +78,8 @@
             fetchdrivers();
             fetchrequests();
 
-            function fetchdrivers() {
+            function fetchdrivers()
+            {
                 $.ajax({
                     type: "GET",
                     url: "http://127.0.0.1:8000/api/drivers",
@@ -87,39 +89,104 @@
                         $('#driver').html("");
                         $.each(drivers,function (key,item) {
                             $('#driver').append(
-                                new Option(item.name, item.name)
+                                new Option(item.name, item.id)
                             )
                         })
                     }
                 });
             }
 
-            function fetchrequests() {
+            function fetchrequests()
+            {
                 $.ajax({
                     type: "GET",
                     url: "http://127.0.0.1:8000/api/requests",
                     dataType: "json",
                     success: function (requests) {
-                        console.log(requests);
+                        // console.log(requests);
                         $('tbody').html("");
                         $.each(requests,function (key,item) {
-                            $('tbody').append(
+                            if (item.status==="تم الاستلام")
+                            {
+                                var button=  '<button class="stop_request" type="submit" >ايقاف</button>' +
+                                    '<input class="req_id" type="hidden" value='+item.id+'>'
+
+                            }
+                            else
+                            {
+                                button =''
+                            }
+                            $('tbody').append
+                            (
                                 '<tr>\
-                            <td>' + item.id + '</td>\
-                            <td>' + item.created_at + '</td>\
-                            <td>' + item.category + '</td>\
-                            <td>' + item.quantity+ item.quantity_type +'</td>\
-                            <td>' + item.driver_name + '</td>\
-                            <td>' + item.status + '</td>\
-                        \</tr>'
-                            )
+                                 <td >' + item.id + '</td>\
+                                 <td>' + item.created_at + '</td>\
+                                 <td>' + item.category + '</td>\
+                                 <td>' + item.quantity+ item.quantity_type +'</td>\
+                                 <td>' + item.driver_name + '</td>\
+                                 <td>' + item.status+' '  + button + '</td>\
+                                 \</tr>'
+                                )
                         })
                     }
                 });
             }
 
+            $(document).on('click', '.add_request', function (e) {
+                e.preventDefault();
+
+                var data = {
+                    'category': $('#category').val(),
+                    'quantity_type': $('#quantity_type').val(),
+                    'quantity': $('#quantity').val(),
+                    'driver_id': $('#driver').val(),
+                }
+                // console.log(data)
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8000/api/requests",
+                    data: data,
+                    dataType: "json",
+                    success: function (response) {
+                        fetchrequests();
+
+                    }
+                });
+
+            });
+
+            $(document).on('click', '.stop_request', function (e) {
+                e.preventDefault();
+                var id = $(this).parent().find('input.req_id').val();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: "PUT",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    url: "http://127.0.0.1:8000/api/requests/"+id,
+                    data: id,
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response)
+                        fetchrequests();
+
+                    }
+                });
 
 
+            });
 
         });
 
