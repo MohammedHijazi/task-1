@@ -15,10 +15,10 @@
 
         <div class="quantity-type">
             <label for="quantity_type">لترات</label>
-            <input type="radio" id="quantity_type" value="liter">
+            <input name="quantity_type" type="radio" id="quantity_type" value="liter">
             <br>
             <label for="quantity_type">مبلغ</label>
-            <input type="radio" id="quantity_type" value="shekel">
+            <input name="quantity_type" type="radio" id="quantity_type" value="shekel">
         </div>
 
         <div class="quantity-type">
